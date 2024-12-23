@@ -4,8 +4,8 @@ import com.goblin.goandblinblog.domain.category.controller.port.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
 }

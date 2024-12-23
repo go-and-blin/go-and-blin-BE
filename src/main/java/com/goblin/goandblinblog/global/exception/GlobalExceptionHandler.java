@@ -1,9 +1,7 @@
 package com.goblin.goandblinblog.global.exception;
 
-import com.goblin.goandblinblog.global.exception.GoAndBlinException;
 import com.goblin.goandblinblog.global.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -2,7 +2,7 @@ package com.goblin.goandblinblog.domain.post.entity;
 
 import com.goblin.goandblinblog.domain.category.entity.Category;
 import com.goblin.goandblinblog.domain.member.entity.Member;
-import com.goblin.goandblinblog.global.base.BaseTime;
+import com.goblin.goandblinblog.global.base.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Post extends BaseTime {
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
