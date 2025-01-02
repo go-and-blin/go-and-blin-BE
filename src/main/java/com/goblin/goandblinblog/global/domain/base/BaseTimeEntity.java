@@ -1,4 +1,4 @@
-package com.goblin.goandblinblog.global.base;
+package com.goblin.goandblinblog.global.domain.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
