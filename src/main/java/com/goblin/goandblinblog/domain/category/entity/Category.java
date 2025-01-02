@@ -1,21 +1,19 @@
 package com.goblin.goandblinblog.domain.category.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Category {
 
@@ -29,4 +27,18 @@ public class Category {
 
     @Column(nullable = false)
     private String title;
+
+    @Builder
+    private Category(Long id, CategoryType type, String title) {
+        this.id = id;
+        this.type = type;
+        this.title = title;
+    }
+
+    public static Category create(CategoryType categoryType, String title) {
+        return Category.builder()
+            .type(categoryType)
+            .title(title)
+            .build();
+    }
 }
