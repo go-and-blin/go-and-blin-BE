@@ -1,4 +1,4 @@
-package com.goblin.goandblinblog.domain.category.controller.dto;
+package com.goblin.goandblinblog.domain.category.controller.dto.request;
 
 import com.goblin.goandblinblog.domain.category.entity.CategoryType;
 import com.goblin.goandblinblog.domain.category.service.dto.request.CategoryCreateServiceRequest;
