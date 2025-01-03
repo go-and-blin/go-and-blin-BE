@@ -41,4 +41,8 @@ public class Category {
             .title(title)
             .build();
     }
+
+    public void update(String newTitle) {
+        this.title = newTitle;
+    }
 }

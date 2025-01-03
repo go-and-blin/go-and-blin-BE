@@ -8,4 +8,6 @@ public interface CategoryRepository {
     Category save(Category entity);
 
     boolean existsByCategoryTypeAndTitle(CategoryType categoryType, String title);
+
+    Category findById(Long categoryId);
 }
