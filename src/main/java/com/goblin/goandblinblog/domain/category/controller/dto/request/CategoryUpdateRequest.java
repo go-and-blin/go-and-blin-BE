@@ -1,6 +1,6 @@
 package com.goblin.goandblinblog.domain.category.controller.dto.request;
 
-import com.goblin.goandblinblog.domain.category.service.dto.CategoryUpdateServiceRequest;
+import com.goblin.goandblinblog.domain.category.service.dto.request.CategoryUpdateServiceRequest;
 import jakarta.validation.constraints.NotBlank;
 
 public record CategoryUpdateRequest(
