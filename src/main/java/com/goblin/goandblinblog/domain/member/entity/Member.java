@@ -27,6 +27,8 @@ public class Member {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Column(unique = true)
+    private String refreshToken;
+
 }
-
-
