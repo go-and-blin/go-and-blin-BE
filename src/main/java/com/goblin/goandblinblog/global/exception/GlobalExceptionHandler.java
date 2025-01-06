@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         int status = e.getStatusCode().value();
 
         ErrorResponse response = ErrorResponse.builder().status(status)
-            .message("잘못된 요청입니다.")
+            .message(e.getMessage())
             .build();
 
         for (FieldError fieldError : e.getFieldErrors()) {
