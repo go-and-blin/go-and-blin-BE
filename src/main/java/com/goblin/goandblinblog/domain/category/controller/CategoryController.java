@@ -6,6 +6,7 @@ import com.goblin.goandblinblog.domain.category.controller.port.CategoryService;
 import com.goblin.goandblinblog.domain.category.entity.CategoryType;
 import com.goblin.goandblinblog.domain.category.service.dto.response.CategoryResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
