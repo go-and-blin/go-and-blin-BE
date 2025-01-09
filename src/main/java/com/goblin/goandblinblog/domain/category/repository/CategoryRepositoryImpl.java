@@ -4,6 +4,7 @@ import com.goblin.goandblinblog.domain.category.entity.Category;
 import com.goblin.goandblinblog.domain.category.entity.CategoryType;
 import com.goblin.goandblinblog.domain.category.service.port.CategoryRepository;
 import com.goblin.goandblinblog.global.exception.category.CategoryNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,16 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Category findById(Long categoryId) {
         return categoryJpaRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException());
+    }
+
+    @Override
+    public List<Category> findAllByType(CategoryType categoryType) {
+        return categoryJpaRepository.findAllByType(categoryType);
+    }
+
+    @Override
+    public void deleteAll() {
+        categoryJpaRepository.deleteAll();
     }
 
 }
