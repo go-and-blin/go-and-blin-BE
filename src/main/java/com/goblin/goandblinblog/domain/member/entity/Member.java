@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,5 +31,13 @@ public class Member {
 
     @Column(unique = true)
     private String refreshToken;
+
+    @Builder
+    private Member(String nickName, String password, String imageUrl, String refreshToken) {
+        this.nickName = nickName;
+        this.password = password;
+        this.imageUrl = imageUrl;
+        this.refreshToken = refreshToken;
+    }
 
 }

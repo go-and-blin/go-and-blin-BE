@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.lang.reflect.Field;
 import java.security.Key;
@@ -15,6 +16,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 class TokenProviderTest extends IntegrationTestSupport {
 
     private TokenProvider tokenProvider;
@@ -31,10 +33,10 @@ class TokenProviderTest extends IntegrationTestSupport {
     @Test
     void generateAllToken() {
         // given
-        Long memberId = 1L;
+        String nickname = "test-nickname";
 
         // when
-        TokenResponse tokenResponse = tokenProvider.generateAllToken(memberId);
+        TokenResponse tokenResponse = tokenProvider.generateAllToken(nickname);
 
         // then
         assertThat(tokenResponse).isNotNull();
@@ -46,22 +48,22 @@ class TokenProviderTest extends IntegrationTestSupport {
     @Test
     void getSubjectFromToken() {
         // given
-        Long memberId = 1L;
-        TokenResponse tokenResponse = tokenProvider.generateAllToken(memberId);
+        String nickname = "test-nickname";
+        TokenResponse tokenResponse = tokenProvider.generateAllToken(nickname);
 
         // when
         String subjectFromToken = tokenProvider.getSubjectFromToken(tokenResponse.accessToken());
 
         // then
-        assertThat(subjectFromToken).isEqualTo(memberId.toString());
+        assertThat(subjectFromToken).isEqualTo(nickname);
     }
 
     @DisplayName("유효한 토큰을 검증한다.")
     @Test
     void validateTokenValidToken() {
         // given
-        Long memberId = 1L;
-        TokenResponse tokenResponse = tokenProvider.generateAllToken(memberId);
+        String nickname = "test-nickname";
+        TokenResponse tokenResponse = tokenProvider.generateAllToken(nickname);
         String validToken = tokenResponse.accessToken();
 
         // when

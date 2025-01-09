@@ -6,6 +6,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -42,8 +44,8 @@ public class TokenProvider {
         return false;
     }
 
-    public TokenResponse generateAllToken(Long memberId) {
-        String accessToken = generateAccessToken(memberId);
+    public TokenResponse generateAllToken(String nickname) {
+        String accessToken = generateAccessToken(nickname);
         String refreshToken = generateRefreshToken();
 
         return TokenResponse.builder()
@@ -57,10 +59,17 @@ public class TokenProvider {
         return claims.getSubject();
     }
 
-    private String generateAccessToken(Long memberId) {
+    public Authentication getAuthentication(String token) {
+        Claims claims = getClaimsFromToken(token);
+        String nickname = claims.getSubject();
+
+        return new UsernamePasswordAuthenticationToken(nickname, "");
+    }
+
+    private String generateAccessToken(String nickname) {
         Date expirationDate = createExpirationDate(ACCESS_TOKEN.getExpirationTime());
         return Jwts.builder()
-                .setSubject(memberId.toString())
+                .setSubject(nickname)
                 .setExpiration(expirationDate)
                 .setIssuedAt(new Date())
                 .signWith(key, SignatureAlgorithm.HS512)
