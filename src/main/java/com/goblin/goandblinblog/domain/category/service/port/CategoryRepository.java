@@ -15,4 +15,5 @@ public interface CategoryRepository {
     List<Category> findAllByType(CategoryType categoryType);
 
     void deleteAll();
+
 }

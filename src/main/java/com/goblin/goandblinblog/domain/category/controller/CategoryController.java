@@ -7,7 +7,9 @@ import com.goblin.goandblinblog.domain.category.entity.CategoryType;
 import com.goblin.goandblinblog.domain.category.service.dto.response.CategoryResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +36,10 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateCategory(@PathVariable String id,
-        @RequestBody @Valid CategoryUpdateRequest request) {
+    public ResponseEntity<Void> updateCategory(
+            @PathVariable String id,
+            @RequestBody @Valid CategoryUpdateRequest request
+    ) {
         categoryService.update(Long.parseLong(id), request.toServiceRequest());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -48,9 +52,10 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> getCategories(
-        @RequestParam("type") CategoryType type
+            @RequestParam("type") CategoryType type
     ) {
         List<CategoryResponse> categories = categoryService.getCategoriesByCategoryType(type);
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
+
 }

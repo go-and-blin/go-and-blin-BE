@@ -8,4 +8,5 @@ public class CategoryExistsException extends GoAndBlinException {
     public CategoryExistsException() {
         super(ErrorCode.CATEGORY_EXISTS);
     }
+
 }

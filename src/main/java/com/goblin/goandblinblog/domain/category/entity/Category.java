@@ -45,4 +45,5 @@ public class Category {
     public void update(String newTitle) {
         this.title = newTitle;
     }
+
 }
