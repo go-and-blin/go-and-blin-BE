@@ -1,4 +1,4 @@
-package com.goblin.goandblinblog.domain.image.sevice;
+package com.goblin.goandblinblog.domain.image.service;
 
 import com.goblin.goandblinblog.domain.image.controller.port.ImageService;
 import lombok.RequiredArgsConstructor;

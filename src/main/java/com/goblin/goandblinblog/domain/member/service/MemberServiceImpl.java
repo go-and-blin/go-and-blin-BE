@@ -1,4 +1,4 @@
-package com.goblin.goandblinblog.domain.member.sevice;
+package com.goblin.goandblinblog.domain.member.service;
 
 import com.goblin.goandblinblog.domain.member.controller.port.MemberService;
 import lombok.RequiredArgsConstructor;
