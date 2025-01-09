@@ -12,4 +12,5 @@ public abstract class GoAndBlinException extends RuntimeException {
     private final Map<String, String> validation = new HashMap<>();
 
     private final ErrorCode errorCode;
+
 }

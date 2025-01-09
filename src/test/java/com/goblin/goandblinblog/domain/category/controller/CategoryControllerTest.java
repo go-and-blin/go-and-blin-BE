@@ -128,4 +128,5 @@ class CategoryControllerTest extends ControllerTestSupport {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.message").value("공백은 허용되지 않습니다."));
     }
+
 }

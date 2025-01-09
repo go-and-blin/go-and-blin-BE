@@ -1,4 +1,4 @@
-package com.goblin.goandblinblog.domain.member.sevice.port;
+package com.goblin.goandblinblog.domain.member.service.port;
 
 import com.goblin.goandblinblog.domain.member.entity.Member;
 

@@ -1,7 +1,7 @@
 package com.goblin.goandblinblog.global.domain.auth.service;
 
 import com.goblin.goandblinblog.domain.member.entity.Member;
-import com.goblin.goandblinblog.domain.member.sevice.port.MemberRepository;
+import com.goblin.goandblinblog.domain.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

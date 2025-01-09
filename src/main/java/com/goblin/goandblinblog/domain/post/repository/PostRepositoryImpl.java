@@ -1,6 +1,6 @@
 package com.goblin.goandblinblog.domain.post.repository;
 
-import com.goblin.goandblinblog.domain.post.sevice.port.PostRepository;
+import com.goblin.goandblinblog.domain.post.service.port.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

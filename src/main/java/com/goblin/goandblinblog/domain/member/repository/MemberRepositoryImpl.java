@@ -1,7 +1,7 @@
 package com.goblin.goandblinblog.domain.member.repository;
 
 import com.goblin.goandblinblog.domain.member.entity.Member;
-import com.goblin.goandblinblog.domain.member.sevice.port.MemberRepository;
+import com.goblin.goandblinblog.domain.member.service.port.MemberRepository;
 import com.goblin.goandblinblog.global.exception.member.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

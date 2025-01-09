@@ -10,4 +10,5 @@ public interface CategoryJpaRepository extends JpaRepository<Category, Long> {
     boolean existsByTypeAndTitle(CategoryType type, String title);
 
     List<Category> findAllByType(CategoryType categoryType);
+
 }

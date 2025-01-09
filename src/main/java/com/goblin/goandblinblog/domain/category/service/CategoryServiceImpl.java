@@ -9,7 +9,9 @@ import com.goblin.goandblinblog.domain.category.service.dto.response.CategoryRes
 import com.goblin.goandblinblog.domain.category.service.port.CategoryRepository;
 import com.goblin.goandblinblog.global.exception.category.CategoryExistsException;
 import jakarta.transaction.Transactional;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void create(CategoryCreateServiceRequest request) {
-        if(categoryRepository.existsByCategoryTypeAndTitle(request.categoryType(), request.title())){
+        if (categoryRepository.existsByCategoryTypeAndTitle(request.categoryType(), request.title())) {
             throw new CategoryExistsException();
         }
         categoryRepository.save(request.toEntity());
@@ -43,8 +45,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryResponse> getCategoriesByCategoryType(CategoryType categoryType) {
         return categoryRepository.findAllByType(categoryType)
-            .stream()
-            .map(CategoryResponse::from)
-            .toList();
+                .stream()
+                .map(CategoryResponse::from)
+                .toList();
     }
+
 }
