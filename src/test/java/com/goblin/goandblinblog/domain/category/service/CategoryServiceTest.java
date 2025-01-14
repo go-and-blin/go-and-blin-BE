@@ -1,6 +1,7 @@
 package com.goblin.goandblinblog.domain.category.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,6 +17,8 @@ import com.goblin.goandblinblog.domain.category.service.port.CategoryRepository;
 import com.goblin.goandblinblog.global.exception.ErrorCode;
 import com.goblin.goandblinblog.global.exception.category.CategoryExistsException;
 import com.goblin.goandblinblog.global.exception.category.CategoryNotFoundException;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +31,24 @@ class CategoryServiceTest extends IntegrationTestSupport {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @AfterEach
+    void tearDown() {
+        categoryRepository.deleteAll();
+    }
+
     @DisplayName("카테고리를 생성한다.")
     @Test
     void createCategory() {
         CategoryCreateServiceRequest request = new CategoryCreateServiceRequest(
-                CategoryType.ALL,
-                "트러블 슈팅"
+            CategoryType.ALL,
+            "트러블 슈팅"
         );
 
         assertDoesNotThrow(() -> {
             categoryService.create(request);
         });
     }
+
 
     @DisplayName("카테고리 생성 할 때 이미 존재한다면 예외가 발생한다.")
     @Test
@@ -48,14 +57,14 @@ class CategoryServiceTest extends IntegrationTestSupport {
         categoryRepository.save(category1);
 
         CategoryCreateServiceRequest request = new CategoryCreateServiceRequest(
-                CategoryType.ALL,
-                "트러블 슈팅"
+            CategoryType.ALL,
+            "트러블 슈팅"
         );
 
         CategoryExistsException exception = assertThrows(
-                CategoryExistsException.class, () -> {
-                    categoryService.create(request);
-                });
+            CategoryExistsException.class, () -> {
+                categoryService.create(request);
+            });
 
         assertEquals(ErrorCode.CATEGORY_EXISTS.getMessage(), exception.getErrorCode().getMessage());
     }
@@ -73,7 +82,7 @@ class CategoryServiceTest extends IntegrationTestSupport {
         Category result = categoryRepository.findById(categoryId);
 
         assertThat(result).extracting(
-                "id", "type", "title"
+            "id", "type", "title"
         ).contains(categoryId, CategoryType.ALL, "HTTP");
 
     }
@@ -88,9 +97,9 @@ class CategoryServiceTest extends IntegrationTestSupport {
         CategoryResponse categoryResponse = categoryService.getCategory(categoryId);
 
         assertThat(categoryResponse).extracting(
-                "id", "type", "title"
+            "id", "type", "title"
         ).contains(
-                1L, CategoryType.ALL, "트러블슈팅"
+            categoryId, CategoryType.ALL, "트러블슈팅"
         );
     }
 
@@ -99,7 +108,32 @@ class CategoryServiceTest extends IntegrationTestSupport {
     void getCategoryWhenCategoryDoesNotExist() {
         Long categoryId = 1L;
 
-        assertThrows(CategoryNotFoundException.class, () -> {categoryService.getCategory(categoryId);});
+        assertThrows(CategoryNotFoundException.class, () -> {
+            categoryService.getCategory(categoryId);
+        });
+    }
+
+    @DisplayName("부모 카테고리를 받으면 해당 자식 카테고리를 전체 조회한다.")
+    @Test
+    void getCategoriesByCategoryType() {
+        CategoryType categoryType = CategoryType.ALL;
+        Category category1 = Category.create(CategoryType.ALL, "스프링");
+        Category category2 = Category.create(CategoryType.ALL, "자바");
+        Category category3 = Category.create(CategoryType.ALL, "파이썬");
+
+        Category save = categoryRepository.save(category1);
+        Category save1 = categoryRepository.save(category2);
+        Category save2 = categoryRepository.save(category3);
+
+        List<CategoryResponse> result = categoryService.getCategoriesByCategoryType(categoryType);
+
+        assertThat(result).extracting(
+                "id", "type", "title")
+            .containsExactlyInAnyOrder(
+                tuple(save.getId(), CategoryType.ALL, "스프링"),
+                tuple(save1.getId(), CategoryType.ALL, "자바"),
+                tuple(save2.getId(), CategoryType.ALL, "파이썬")
+            ).hasSize(3);
     }
 
 }

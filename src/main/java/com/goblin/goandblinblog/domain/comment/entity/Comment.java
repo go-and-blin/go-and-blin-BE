@@ -1,7 +1,7 @@
 package com.goblin.goandblinblog.domain.comment.entity;
 
 import com.goblin.goandblinblog.domain.post.entity.Post;
-import com.goblin.goandblinblog.global.base.BaseTimeEntity;
+import com.goblin.goandblinblog.global.domain.base.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

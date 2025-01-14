@@ -2,7 +2,7 @@ package com.goblin.goandblinblog.domain.post.entity;
 
 import com.goblin.goandblinblog.domain.category.entity.Category;
 import com.goblin.goandblinblog.domain.member.entity.Member;
-import com.goblin.goandblinblog.global.base.BaseTimeEntity;
+import com.goblin.goandblinblog.global.domain.base.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
