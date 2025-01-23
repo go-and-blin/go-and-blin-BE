@@ -40,4 +40,8 @@ public class Member {
         this.refreshToken = refreshToken;
     }
 
+    public void updateNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
 }
