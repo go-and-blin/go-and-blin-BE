@@ -1,11 +1,11 @@
-package com.goblin.goandblinblog.external.s3;
+package com.goblin.goandblinblog.external.s3.provider;
 
 import com.goblin.goandblinblog.global.exception.file.S3FileUploadException;
+import com.goblin.goandblinblog.global.storage.provider.StorageProvider;
 import com.goblin.goandblinblog.global.validator.ImageFileValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -17,14 +17,14 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
-public class S3Service {
+public class S3StorageProvider implements StorageProvider {
 
     private final S3Client s3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
+    @Override
     public String uploadProfileImage(MultipartFile file) {
         ImageFileValidator.validate(file);
         String fileName = generateFileName(file.getOriginalFilename());

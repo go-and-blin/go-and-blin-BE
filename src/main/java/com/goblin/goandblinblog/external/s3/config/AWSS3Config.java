@@ -1,4 +1,4 @@
-package com.goblin.goandblinblog.global.config;
+package com.goblin.goandblinblog.external.s3.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
