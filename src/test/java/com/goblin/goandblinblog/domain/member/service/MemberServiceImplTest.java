@@ -1,18 +1,24 @@
 package com.goblin.goandblinblog.domain.member.service;
 
 import com.goblin.goandblinblog.IntegrationTestSupport;
+import com.goblin.goandblinblog.TestS3Config;
 import com.goblin.goandblinblog.domain.member.controller.port.MemberService;
 import com.goblin.goandblinblog.domain.member.entity.Member;
+import com.goblin.goandblinblog.domain.member.service.dto.response.MemberResponse;
 import com.goblin.goandblinblog.domain.member.service.port.MemberRepository;
 import com.goblin.goandblinblog.global.exception.member.MemberAlreadyExistsException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+@Import(TestS3Config.class)
 class MemberServiceImplTest extends IntegrationTestSupport {
 
     @Autowired
@@ -60,12 +66,36 @@ class MemberServiceImplTest extends IntegrationTestSupport {
                 );
     }
 
+    @DisplayName("프로필 이미지를 업로드하면 이미지 URL을 반환한다.")
+    @Test
+    void updateProfileImage() {
+        // given
+        String imageUrl = "imageUrl";
+        Member member = getMember("password", imageUrl, "goblin");
+        Member savedMember = memberRepository.save(member);
+
+        // when
+        MemberResponse memberResponse = memberService.updateProfileImage(getMockMultipartFile(), savedMember.getId());
+
+        // then
+        assertThat(memberResponse)
+                .extracting("memberId", "imageUrl")
+                .containsExactlyInAnyOrder(savedMember.getId(), TestS3Config.TEST_URL_JPG);
+    }
+
     private Member getMember(String password, String imageUrl, String goblin) {
         return Member.builder()
                 .password(password)
                 .imageUrl(imageUrl)
                 .nickName(goblin)
                 .build();
+    }
+
+    private MultipartFile getMockMultipartFile() {
+        String originalFilename = "test-image.jpg";
+        return new MockMultipartFile(
+                "file", originalFilename, "image/jpeg", new byte[1024]
+        );
     }
 
 }

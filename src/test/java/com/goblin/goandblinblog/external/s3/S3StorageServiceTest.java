@@ -1,19 +1,19 @@
 package com.goblin.goandblinblog.external.s3;
 
 import com.goblin.goandblinblog.IntegrationTestSupport;
-import com.goblin.goandblinblog.external.s3.config.TestS3Config;
+import com.goblin.goandblinblog.TestS3Config;
 import com.goblin.goandblinblog.global.storage.provider.StorageProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.goblin.goandblinblog.external.s3.config.TestS3Config.TEST_URL_JPG;
+import static com.goblin.goandblinblog.TestS3Config.TEST_URL_JPG;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@ContextConfiguration(classes = TestS3Config.class)
+@Import(TestS3Config.class)
 class S3StorageServiceTest extends IntegrationTestSupport {
 
     @Autowired

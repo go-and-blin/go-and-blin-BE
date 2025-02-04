@@ -8,7 +8,7 @@ public record MemberResponse(
 
         Long memberId,
         String nickname,
-        String profileImageURL
+        String imageUrl
 
 ) {
 
@@ -16,7 +16,7 @@ public record MemberResponse(
         return MemberResponse.builder()
                 .memberId(member.getId())
                 .nickname(member.getNickName())
-                .profileImageURL(member.getImageUrl())
+                .imageUrl(member.getImageUrl())
                 .build();
     }
 
