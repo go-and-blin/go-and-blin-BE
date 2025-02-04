@@ -12,9 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
+import static com.goblin.goandblinblog.MockMultipartFile.getMockMultipartFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -75,7 +74,7 @@ class MemberServiceImplTest extends IntegrationTestSupport {
         Member savedMember = memberRepository.save(member);
 
         // when
-        MemberResponse memberResponse = memberService.updateProfileImage(getMockMultipartFile(), savedMember.getId());
+        MemberResponse memberResponse = memberService.updateProfileImage(getMockMultipartFile("file", "test-image.jpg", "image/jpeg", new byte[1024]), savedMember.getId());
 
         // then
         assertThat(memberResponse)
@@ -89,13 +88,6 @@ class MemberServiceImplTest extends IntegrationTestSupport {
                 .imageUrl(imageUrl)
                 .nickName(goblin)
                 .build();
-    }
-
-    private MultipartFile getMockMultipartFile() {
-        String originalFilename = "test-image.jpg";
-        return new MockMultipartFile(
-                "file", originalFilename, "image/jpeg", new byte[1024]
-        );
     }
 
 }

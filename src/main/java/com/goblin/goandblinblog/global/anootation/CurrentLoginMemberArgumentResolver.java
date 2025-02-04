@@ -1,6 +1,8 @@
 package com.goblin.goandblinblog.global.anootation;
 
+import com.goblin.goandblinblog.global.exception.auth.UnauthorizedException;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -24,6 +26,16 @@ public class CurrentLoginMemberArgumentResolver implements HandlerMethodArgument
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
     ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new UnauthorizedException();
+        }
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal == null) {
+            throw new UnauthorizedException();
+        }
+
         return String.valueOf(
                 SecurityContextHolder.getContext()
                         .getAuthentication()

@@ -16,7 +16,7 @@ public enum ErrorCode {
     NOT_FOUND_FILE(404, "존재하지 않는 파일입니다."),
     INVALID_FILE_EXTENSION(400, "올바르지 않은 파일 확장자입니다."),
     FAILED_TO_UPLOAD_FILE(500, "파일 업로드에 실패하였습니다."),
-    ;
+    UNAUTHORIZED(401, "인증 정보가 없습니다.");
 
     private final int status;
     private final String message;

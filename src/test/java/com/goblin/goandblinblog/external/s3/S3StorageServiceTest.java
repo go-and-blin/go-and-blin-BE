@@ -7,9 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.goblin.goandblinblog.MockMultipartFile.getMockMultipartFile;
 import static com.goblin.goandblinblog.TestS3Config.TEST_URL_JPG;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -23,20 +23,13 @@ class S3StorageServiceTest extends IntegrationTestSupport {
     @Test
     void uploadProfileImage() {
         // given
-        MultipartFile mockFile = getMockMultipartFile();
+        MultipartFile mockFile = getMockMultipartFile("file", "test-image.jpg", "image/jpeg", new byte[1024]);
 
         // when
         String result = storageProvider.uploadProfileImage(mockFile);
 
         // then
         assertThat(result).isEqualTo(TEST_URL_JPG);
-    }
-
-    private MultipartFile getMockMultipartFile() {
-        String originalFilename = "test-image.jpg";
-        return new MockMultipartFile(
-                "file", originalFilename, "image/jpeg", new byte[1024]
-        );
     }
 
 }
