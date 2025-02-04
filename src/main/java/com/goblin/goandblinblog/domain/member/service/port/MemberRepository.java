@@ -8,4 +8,10 @@ public interface MemberRepository {
 
     Member findByNickname(String nickname);
 
+    boolean existsByNickname(String nickname);
+
+    void deleteAllInBatch();
+
+    Member save(Member member);
+
 }

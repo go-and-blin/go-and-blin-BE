@@ -40,4 +40,12 @@ public class Member {
         this.refreshToken = refreshToken;
     }
 
+    public void updateNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void updateProfileImage(String profileImageURL) {
+        this.imageUrl = profileImageURL;
+    }
+
 }

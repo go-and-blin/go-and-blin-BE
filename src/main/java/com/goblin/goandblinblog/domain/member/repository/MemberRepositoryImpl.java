@@ -24,4 +24,19 @@ public class MemberRepositoryImpl implements MemberRepository {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
+    @Override
+    public boolean existsByNickname(String nickName) {
+        return memberJpaRepository.existsByNickName(nickName);
+    }
+
+    @Override
+    public void deleteAllInBatch() {
+        memberJpaRepository.deleteAllInBatch();
+    }
+
+    @Override
+    public Member save(Member member) {
+        return memberJpaRepository.save(member);
+    }
+
 }
