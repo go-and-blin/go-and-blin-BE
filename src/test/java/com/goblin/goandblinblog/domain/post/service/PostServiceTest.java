@@ -97,6 +97,29 @@ class PostServiceTest extends IntegrationTestSupport {
                 .isInstanceOf(PostNotFoundException.class);
     }
 
+    @DisplayName("글을 삭제 한다")
+    @Test
+    void deletePost() {
+        String uuid = String.valueOf(UUID.randomUUID());
+        PostCreateServiceRequest request = createPostCreateRequest(uuid);
+        Post save = postRepository.save(
+                Post.create(request.uuid(), request.title(), request.content(), member, category));
+
+        postService.delete(save.getId());
+
+        assertThatThrownBy(
+                () -> postRepository.findById(uuid))
+                .isInstanceOf(PostNotFoundException.class);
+    }
+
+    @DisplayName("삭제하려는 글이 없으면, PostNotFound 발생한다.")
+    @Test
+    void deletePostWithPostNotFound() {
+        assertThatThrownBy(
+                () -> postService.delete("test"))
+                .isInstanceOf(PostNotFoundException.class);
+    }
+
     private PostUpdateServiceRequest createUpdateRequest() {
         return new PostUpdateServiceRequest(
                 "update title",
