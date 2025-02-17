@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,9 +22,8 @@ import lombok.NoArgsConstructor;
 public class Post extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
-    private Long id;
+    private String id;
 
     @Column(nullable = false)
     private String title;
@@ -39,4 +39,28 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    public static Post create(
+            String uuid,
+            String title,
+            String content,
+            Member member,
+            Category category
+    ){
+        return Post.builder().
+                id(uuid)
+                .title(title)
+                .content(content)
+                .member(member)
+                .category(category)
+                .build();
+    }
+
+    @Builder
+    private Post(String id, Category category, String content, Member member, String title) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.member = member;
+        this.category = category;
+    }
 }
