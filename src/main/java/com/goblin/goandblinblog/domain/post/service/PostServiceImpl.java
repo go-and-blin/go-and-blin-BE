@@ -38,4 +38,10 @@ public class PostServiceImpl implements PostService {
 
         return post.getId();
     }
+
+    @Override
+    public void delete(String uuid) {
+        Post post = postRepository.findById(uuid);
+        postRepository.delete(post);
+    }
 }
