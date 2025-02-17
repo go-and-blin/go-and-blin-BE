@@ -26,4 +26,9 @@ public class PostRepositoryImpl implements PostRepository {
     public Post findById(String id) {
         return postJpaRepository.findById(id).orElseThrow(PostNotFoundException::new);
     }
+
+    @Override
+    public void delete(Post post) {
+        postJpaRepository.delete(post);
+    }
 }

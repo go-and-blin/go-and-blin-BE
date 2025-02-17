@@ -8,4 +8,6 @@ public interface PostService {
     String create(Long memberId, PostCreateServiceRequest request);
 
     String update(String uuid, PostUpdateServiceRequest updateRequest);
+
+    void delete(String uuid);
 }

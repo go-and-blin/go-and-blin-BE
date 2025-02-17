@@ -9,4 +9,6 @@ public interface PostRepository {
     void deleteAll();
 
     Post findById(String id);
+
+    void delete(Post post);
 }
