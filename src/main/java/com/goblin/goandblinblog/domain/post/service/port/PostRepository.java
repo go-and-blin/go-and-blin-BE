@@ -7,4 +7,6 @@ public interface PostRepository {
     Post save(Post post);
 
     void deleteAll();
+
+    Post findById(String id);
 }
