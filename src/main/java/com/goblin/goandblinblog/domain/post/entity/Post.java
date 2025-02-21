@@ -40,14 +40,14 @@ public class Post extends BaseTimeEntity {
     private Category category;
 
     public static Post create(
-            String uuid,
+            String id,
             String title,
             String content,
             Member member,
             Category category
     ){
         return Post.builder().
-                id(uuid)
+                id(id)
                 .title(title)
                 .content(content)
                 .member(member)

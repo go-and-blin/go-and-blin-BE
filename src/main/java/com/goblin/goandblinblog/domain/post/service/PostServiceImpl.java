@@ -26,22 +26,22 @@ public class PostServiceImpl implements PostService {
         Member member = memberRepository.findById(memberId);
         Category category = categoryRepository.findById(request.categoryId());
         return postRepository.save(
-                Post.create(request.uuid(), request.title(), request.content(), member, category)
+                Post.create(request.id(), request.title(), request.content(), member, category)
         ).getId();
     }
 
     @Transactional
     @Override
-    public String update(String uuid, PostUpdateServiceRequest updateRequest) {
-        Post post = postRepository.findById(uuid);
+    public String update(String id, PostUpdateServiceRequest updateRequest) {
+        Post post = postRepository.findById(id);
         post.update(updateRequest.title(), updateRequest.content());
 
         return post.getId();
     }
 
     @Override
-    public void delete(String uuid) {
-        Post post = postRepository.findById(uuid);
+    public void delete(String id) {
+        Post post = postRepository.findById(id);
         postRepository.delete(post);
     }
 }

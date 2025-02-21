@@ -7,7 +7,7 @@ public interface PostService {
 
     String create(Long memberId, PostCreateServiceRequest request);
 
-    String update(String uuid, PostUpdateServiceRequest updateRequest);
+    String update(String id, PostUpdateServiceRequest updateRequest);
 
-    void delete(String uuid);
+    void delete(String id);
 }

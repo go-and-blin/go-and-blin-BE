@@ -3,6 +3,8 @@ package com.goblin.goandblinblog.domain.post.repository;
 import com.goblin.goandblinblog.domain.post.entity.Post;
 import com.goblin.goandblinblog.domain.post.service.port.PostRepository;
 import com.goblin.goandblinblog.global.exception.post.PostNotFoundException;
+import com.goblin.goandblinblog.global.util.ULIDGenerator;
+import com.goblin.goandblinblog.global.util.ulid.IdentifierGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
