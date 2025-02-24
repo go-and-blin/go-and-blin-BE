@@ -1,6 +1,8 @@
 package com.goblin.goandblinblog.domain.post.service.port;
 
 import com.goblin.goandblinblog.domain.post.entity.Post;
+import com.goblin.goandblinblog.domain.post.entity.PostPreviewResponse;
+import java.util.List;
 
 public interface PostRepository {
 
@@ -11,4 +13,6 @@ public interface PostRepository {
     Post findById(String id);
 
     void delete(Post post);
+
+    List<PostPreviewResponse> findAll(String lastPostId, Long size);
 }

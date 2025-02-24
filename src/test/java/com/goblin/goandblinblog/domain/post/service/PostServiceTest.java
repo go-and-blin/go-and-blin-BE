@@ -13,9 +13,11 @@ import com.goblin.goandblinblog.domain.post.controller.port.PostService;
 import com.goblin.goandblinblog.domain.post.entity.Post;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostCreateServiceRequest;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostUpdateServiceRequest;
+import com.goblin.goandblinblog.domain.post.service.dto.response.PostPageResponse;
 import com.goblin.goandblinblog.domain.post.service.port.PostRepository;
 import com.goblin.goandblinblog.global.exception.post.PostNotFoundException;
 import com.goblin.goandblinblog.global.util.ulid.IdentifierGenerator;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -121,6 +123,30 @@ class PostServiceTest extends IntegrationTestSupport {
         assertThatThrownBy(
                 () -> postService.delete("test"))
                 .isInstanceOf(PostNotFoundException.class);
+    }
+
+    @DisplayName("전체글을 조회한다.")
+    @Test
+    void getPosts() {
+        List<Post> posts = List.of(
+                Post.create(createId(), "title1", "content1", member, category),
+                Post.create(createId(), "title2", "content2", member, category),
+                Post.create(createId(), "title3", "content3", member, category),
+                Post.create(createId(), "title4", "content3", member, category),
+                Post.create(createId(), "title5", "content3", member, category),
+                Post.create(createId(), "title6", "content3", member, category),
+                Post.create(createId(), "title7", "content3", member, category)
+        );
+
+        posts.stream().forEach(postRepository::save);
+
+        PostPageResponse all = postService.findAll("", 10L);
+
+        assertThat(all)
+                .isNotNull()
+                .extracting("posts")
+                .asList()
+                .hasSize(posts.size());
     }
 
     private PostUpdateServiceRequest createUpdateRequest() {

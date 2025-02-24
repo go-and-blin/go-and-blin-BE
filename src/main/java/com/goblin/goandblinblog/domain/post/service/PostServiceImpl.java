@@ -8,8 +8,11 @@ import com.goblin.goandblinblog.domain.post.controller.port.PostService;
 import com.goblin.goandblinblog.domain.post.entity.Post;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostCreateServiceRequest;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostUpdateServiceRequest;
+import com.goblin.goandblinblog.domain.post.entity.PostPreviewResponse;
+import com.goblin.goandblinblog.domain.post.service.dto.response.PostPageResponse;
 import com.goblin.goandblinblog.domain.post.service.port.PostRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +46,11 @@ public class PostServiceImpl implements PostService {
     public void delete(String id) {
         Post post = postRepository.findById(id);
         postRepository.delete(post);
+    }
+
+    @Override
+    public PostPageResponse findAll(String lastPostId, Long size) {
+        List<PostPreviewResponse> postPreviewResponses = postRepository.findAll(lastPostId, size);
+        return new PostPageResponse(postPreviewResponses, !postPreviewResponses.isEmpty());
     }
 }
