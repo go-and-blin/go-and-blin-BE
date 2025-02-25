@@ -5,15 +5,16 @@ import com.goblin.goandblinblog.domain.post.service.dto.request.PostUpdateServic
 import com.goblin.goandblinblog.domain.post.entity.PostPreviewResponse;
 import com.goblin.goandblinblog.domain.post.service.dto.response.PostInfoResponse;
 import com.goblin.goandblinblog.domain.post.service.dto.response.PostPageResponse;
+import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface PostService {
 
     String create(Long memberId, PostCreateServiceRequest request);
 
-    String update(String id, PostUpdateServiceRequest updateRequest);
+    String update(Long memberId, String id, PostUpdateServiceRequest updateRequest);
 
-    void delete(String id);
+    void delete(Long memberId, String id);
 
     PostInfoResponse findById(String id);
 

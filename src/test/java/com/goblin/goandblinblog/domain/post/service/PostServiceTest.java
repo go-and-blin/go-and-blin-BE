@@ -24,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 class PostServiceTest extends IntegrationTestSupport {
 
@@ -85,7 +86,7 @@ class PostServiceTest extends IntegrationTestSupport {
 
         PostUpdateServiceRequest updateRequest = createUpdateRequest();
 
-        String resultId = postService.update(id, updateRequest);
+        String resultId = postService.update(member.getId(), id, updateRequest);
         Post result = postRepository.findById(resultId);
 
         assertThat(result).extracting(
@@ -99,8 +100,20 @@ class PostServiceTest extends IntegrationTestSupport {
         String id = createId();
 
         assertThatThrownBy(
-                () -> postService.update(id, createUpdateRequest()))
+                () -> postService.update(member.getId(), id, createUpdateRequest()))
                 .isInstanceOf(PostNotFoundException.class);
+    }
+    @DisplayName("올바르지 않은 유저가 글을 수정하려고 하면, AccessDeniedException 발생한다.")
+    @Test
+    void updatePostWithAccessDeniedException() {
+        String id = createId();
+        PostCreateServiceRequest request = createPostCreateRequest(id);
+        PostUpdateServiceRequest updateRequest = createUpdateRequest();
+        Post save = postRepository.save(
+                Post.create(request.id(), request.title(), request.content(), member, category));
+        assertThatThrownBy(
+                () -> postService.update(99L, save.getId(), updateRequest))
+                .isInstanceOf(AccessDeniedException.class);
     }
 
     @DisplayName("글을 삭제 한다")
@@ -111,7 +124,7 @@ class PostServiceTest extends IntegrationTestSupport {
         Post save = postRepository.save(
                 Post.create(request.id(), request.title(), request.content(), member, category));
 
-        postService.delete(save.getId());
+        postService.delete(member.getId(), save.getId());
 
         assertThatThrownBy(
                 () -> postRepository.findById(id))
@@ -122,8 +135,20 @@ class PostServiceTest extends IntegrationTestSupport {
     @Test
     void deletePostWithPostNotFound() {
         assertThatThrownBy(
-                () -> postService.delete("test"))
+                () -> postService.delete(1L, "test"))
                 .isInstanceOf(PostNotFoundException.class);
+    }
+
+    @DisplayName("올바르지 않은 유저가 글을 삭제하려고 하면, AccessDeniedException 발생한다.")
+    @Test
+    void deletePostWithAccessDeniedException() {
+        String id = createId();
+        PostCreateServiceRequest request = createPostCreateRequest(id);
+        Post save = postRepository.save(
+                Post.create(request.id(), request.title(), request.content(), member, category));
+        assertThatThrownBy(
+                () -> postService.delete(2L, save.getId()))
+                .isInstanceOf(AccessDeniedException.class);
     }
 
     @DisplayName("전체글을 조회한다.")

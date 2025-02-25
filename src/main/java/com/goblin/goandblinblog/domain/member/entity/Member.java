@@ -48,4 +48,7 @@ public class Member {
         this.imageUrl = profileImageURL;
     }
 
+    public boolean compareTo(Long memberId) {
+        return this.id.equals(memberId);
+    }
 }

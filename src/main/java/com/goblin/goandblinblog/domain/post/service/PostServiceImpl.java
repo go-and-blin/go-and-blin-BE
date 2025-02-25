@@ -6,9 +6,9 @@ import com.goblin.goandblinblog.domain.member.entity.Member;
 import com.goblin.goandblinblog.domain.member.service.port.MemberRepository;
 import com.goblin.goandblinblog.domain.post.controller.port.PostService;
 import com.goblin.goandblinblog.domain.post.entity.Post;
+import com.goblin.goandblinblog.domain.post.entity.PostPreviewResponse;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostCreateServiceRequest;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostUpdateServiceRequest;
-import com.goblin.goandblinblog.domain.post.entity.PostPreviewResponse;
 import com.goblin.goandblinblog.domain.post.service.dto.response.PostInfoResponse;
 import com.goblin.goandblinblog.domain.post.service.dto.response.PostPageResponse;
 import com.goblin.goandblinblog.domain.post.service.port.PostRepository;
@@ -36,20 +36,20 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public String update(String id, PostUpdateServiceRequest updateRequest) {
+    public String update(Long memberId, String id, PostUpdateServiceRequest updateRequest) {
         Post post = postRepository.findById(id);
-        post.update(updateRequest.title(), updateRequest.content());
+        post.update(memberId, updateRequest.title(), updateRequest.content());
 
         return post.getId();
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long memberId, String id) {
         Post post = postRepository.findById(id);
+        post.validateMember(memberId);
         postRepository.delete(post);
     }
 
-    @Transactional
     @Override
     public PostInfoResponse findById(String id) {
         return PostInfoResponse.create(postRepository.findById(id));
