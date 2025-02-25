@@ -13,6 +13,7 @@ import com.goblin.goandblinblog.domain.post.controller.port.PostService;
 import com.goblin.goandblinblog.domain.post.entity.Post;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostCreateServiceRequest;
 import com.goblin.goandblinblog.domain.post.service.dto.request.PostUpdateServiceRequest;
+import com.goblin.goandblinblog.domain.post.service.dto.response.PostInfoResponse;
 import com.goblin.goandblinblog.domain.post.service.dto.response.PostPageResponse;
 import com.goblin.goandblinblog.domain.post.service.port.PostRepository;
 import com.goblin.goandblinblog.global.exception.post.PostNotFoundException;
@@ -147,6 +148,21 @@ class PostServiceTest extends IntegrationTestSupport {
                 .extracting("posts")
                 .asList()
                 .hasSize(posts.size());
+    }
+
+    @DisplayName("단일 글을 조회한다.")
+    @Test
+    void getPost() {
+        String id = createId();
+        PostCreateServiceRequest request = createPostCreateRequest(id);
+        postRepository.save(Post.create(request.id(), request.title(), request.content(), member, category));
+
+        PostInfoResponse result  = postService.findById(id);
+
+        assertThat(result)
+                .isNotNull()
+                .extracting("id", "title", "content")
+                .contains(id, request.title(), request.content());
     }
 
     private PostUpdateServiceRequest createUpdateRequest() {
