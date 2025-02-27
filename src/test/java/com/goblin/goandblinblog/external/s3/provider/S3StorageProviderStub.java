@@ -16,4 +16,9 @@ public class S3StorageProviderStub implements StorageProvider {
         return URL;
     }
 
+    @Override
+    public String uploadPostImage(MultipartFile file) {
+        return URL;
+    }
+
 }

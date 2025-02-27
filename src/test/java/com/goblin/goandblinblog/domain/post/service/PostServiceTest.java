@@ -82,7 +82,7 @@ class PostServiceTest extends IntegrationTestSupport {
     void updatePost() {
         String id = createId();
         PostCreateServiceRequest request = createPostCreateRequest(id);
-        postRepository.save(Post.create(request.id(), request.title(), request.content(), member, category));
+        postRepository.save(createPost(request));
 
         PostUpdateServiceRequest updateRequest = createUpdateRequest();
 
@@ -103,14 +103,15 @@ class PostServiceTest extends IntegrationTestSupport {
                 () -> postService.update(member.getId(), id, createUpdateRequest()))
                 .isInstanceOf(PostNotFoundException.class);
     }
+
     @DisplayName("올바르지 않은 유저가 글을 수정하려고 하면, AccessDeniedException 발생한다.")
     @Test
     void updatePostWithAccessDeniedException() {
         String id = createId();
         PostCreateServiceRequest request = createPostCreateRequest(id);
         PostUpdateServiceRequest updateRequest = createUpdateRequest();
-        Post save = postRepository.save(
-                Post.create(request.id(), request.title(), request.content(), member, category));
+        Post save = postRepository.save(createPost(request));
+
         assertThatThrownBy(
                 () -> postService.update(99L, save.getId(), updateRequest))
                 .isInstanceOf(AccessDeniedException.class);
@@ -121,8 +122,7 @@ class PostServiceTest extends IntegrationTestSupport {
     void deletePost() {
         String id = createId();
         PostCreateServiceRequest request = createPostCreateRequest(id);
-        Post save = postRepository.save(
-                Post.create(request.id(), request.title(), request.content(), member, category));
+        Post save = postRepository.save(createPost(request));
 
         postService.delete(member.getId(), save.getId());
 
@@ -144,8 +144,7 @@ class PostServiceTest extends IntegrationTestSupport {
     void deletePostWithAccessDeniedException() {
         String id = createId();
         PostCreateServiceRequest request = createPostCreateRequest(id);
-        Post save = postRepository.save(
-                Post.create(request.id(), request.title(), request.content(), member, category));
+        Post save = postRepository.save(createPost(request));
         assertThatThrownBy(
                 () -> postService.delete(2L, save.getId()))
                 .isInstanceOf(AccessDeniedException.class);
@@ -155,14 +154,13 @@ class PostServiceTest extends IntegrationTestSupport {
     @Test
     void getPosts() {
         List<Post> posts = List.of(
-                Post.create(createId(), "title1", "content1", member, category),
-                Post.create(createId(), "title2", "content2", member, category),
-                Post.create(createId(), "title3", "content3", member, category),
-                Post.create(createId(), "title4", "content3", member, category),
-                Post.create(createId(), "title5", "content3", member, category),
-                Post.create(createId(), "title6", "content3", member, category),
-                Post.create(createId(), "title7", "content3", member, category)
-        );
+                createPost(createPostCreateRequest(createId())),
+                createPost(createPostCreateRequest(createId())),
+                createPost(createPostCreateRequest(createId())),
+                createPost(createPostCreateRequest(createId())),
+                createPost(createPostCreateRequest(createId())),
+                createPost(createPostCreateRequest(createId())),
+                createPost(createPostCreateRequest(createId())));
 
         posts.stream().forEach(postRepository::save);
 
@@ -180,14 +178,18 @@ class PostServiceTest extends IntegrationTestSupport {
     void getPost() {
         String id = createId();
         PostCreateServiceRequest request = createPostCreateRequest(id);
-        postRepository.save(Post.create(request.id(), request.title(), request.content(), member, category));
+        postRepository.save(createPost(request));
 
-        PostInfoResponse result  = postService.findById(id);
+        PostInfoResponse result = postService.findById(id);
 
         assertThat(result)
                 .isNotNull()
                 .extracting("id", "title", "content")
                 .contains(id, request.title(), request.content());
+    }
+
+    private Post createPost(PostCreateServiceRequest request) {
+        return Post.create(request.id(), request.title(), request.content(), request.thumbnail(), member, category);
     }
 
     private PostUpdateServiceRequest createUpdateRequest() {
@@ -198,7 +200,7 @@ class PostServiceTest extends IntegrationTestSupport {
     }
 
     private PostCreateServiceRequest createPostCreateRequest(String id) {
-        return new PostCreateServiceRequest(id, "test", "test", category.getId());
+        return new PostCreateServiceRequest(id, "test", "test", "thumbnail", category.getId());
     }
 
     private String createId() {
