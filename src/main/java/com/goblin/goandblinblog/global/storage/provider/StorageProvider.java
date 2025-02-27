@@ -6,4 +6,5 @@ public interface StorageProvider {
 
     String uploadProfileImage(MultipartFile file);
 
+    String uploadPostImage(MultipartFile file);
 }

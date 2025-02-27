@@ -7,6 +7,7 @@ public record PostCreateRequest(
         String id,
         String title,
         String content,
+        String thumbnail,
         Long categoryId
 
 ) {
@@ -16,6 +17,7 @@ public record PostCreateRequest(
                 id,
                 title,
                 content,
+                thumbnail,
                 categoryId
         );
     }

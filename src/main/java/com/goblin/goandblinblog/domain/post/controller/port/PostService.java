@@ -19,4 +19,5 @@ public interface PostService {
     PostInfoResponse findById(String id);
 
     PostPageResponse findAll(String lastPostId, Long size);
+
 }

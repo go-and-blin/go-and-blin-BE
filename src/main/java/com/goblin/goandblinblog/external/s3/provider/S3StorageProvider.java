@@ -3,6 +3,8 @@ package com.goblin.goandblinblog.external.s3.provider;
 import com.goblin.goandblinblog.global.exception.file.S3FileUploadException;
 import com.goblin.goandblinblog.global.storage.provider.StorageProvider;
 import com.goblin.goandblinblog.global.validator.ImageFileValidator;
+import java.io.IOException;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +13,6 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-
-import java.io.IOException;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,6 +30,15 @@ public class S3StorageProvider implements StorageProvider {
         uploadFileToS3(file, fileName);
 
         return getFileURL(fileName);
+    }
+
+    @Override
+    public String uploadPostImage(MultipartFile file) {
+        ImageFileValidator.validate(file);
+        String key = String.valueOf(UUID.randomUUID());
+
+        uploadFileToS3(file, key);
+        return getFileURL(key);
     }
 
     private void uploadFileToS3(MultipartFile file, String fileName) {

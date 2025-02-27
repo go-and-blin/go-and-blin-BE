@@ -30,7 +30,7 @@ public class PostServiceImpl implements PostService {
         Member member = memberRepository.findById(memberId);
         Category category = categoryRepository.findById(request.categoryId());
         return postRepository.save(
-                Post.create(request.id(), request.title(), request.content(), member, category)
+                Post.create(request.id(), request.title(), request.content(), request.thumbnail(), member, category)
         ).getId();
     }
 

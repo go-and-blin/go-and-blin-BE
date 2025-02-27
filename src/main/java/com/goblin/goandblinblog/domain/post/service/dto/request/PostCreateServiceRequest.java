@@ -5,7 +5,7 @@ public record PostCreateServiceRequest(
         String id,
         String title,
         String content,
-        Long categoryId
+        String thumbnail, Long categoryId
 
 ) {
 }

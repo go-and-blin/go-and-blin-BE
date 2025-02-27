@@ -30,6 +30,9 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private String thumbnail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -42,23 +45,26 @@ public class Post extends BaseTimeEntity {
             String id,
             String title,
             String content,
+            String thumbnail,
             Member member,
             Category category
-    ){
+    ) {
         return Post.builder().
                 id(id)
                 .title(title)
                 .content(content)
+                .thumbnail(thumbnail)
                 .member(member)
                 .category(category)
                 .build();
     }
 
     @Builder
-    private Post(String id, Category category, String content, Member member, String title) {
+    private Post(String id, String title, String content, String thumbnail, Member member, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.thumbnail = thumbnail;
         this.member = member;
         this.category = category;
     }
@@ -70,7 +76,7 @@ public class Post extends BaseTimeEntity {
     }
 
     public void validateMember(Long memberId) {
-        if(!member.compareTo(memberId)){
+        if (!member.compareTo(memberId)) {
             throw new AccessDeniedException(String.valueOf(memberId));
         }
     }
