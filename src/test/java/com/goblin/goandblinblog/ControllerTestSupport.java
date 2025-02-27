@@ -3,6 +3,8 @@ package com.goblin.goandblinblog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goblin.goandblinblog.domain.category.controller.CategoryController;
 import com.goblin.goandblinblog.domain.category.controller.port.CategoryService;
+import com.goblin.goandblinblog.domain.image.controller.ImageController;
+import com.goblin.goandblinblog.domain.image.controller.port.ImageService;
 import com.goblin.goandblinblog.domain.member.controller.MemberController;
 import com.goblin.goandblinblog.domain.member.controller.port.MemberService;
 import com.goblin.goandblinblog.domain.post.controller.PostController;
@@ -18,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
         controllers = {
                 CategoryController.class,
                 MemberController.class,
-                PostController.class
+                PostController.class,
+                ImageController.class
         },
         excludeAutoConfiguration = SecurityAutoConfiguration.class
 )
@@ -38,6 +41,9 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected PostService postService;
+
+    @MockitoBean
+    protected ImageService imageService;
 
     @MockitoBean
     protected IdentifierGenerator generator;
