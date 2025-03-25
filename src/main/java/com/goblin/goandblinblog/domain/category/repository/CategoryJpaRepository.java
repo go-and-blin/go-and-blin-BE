@@ -8,7 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CategoryJpaRepository extends JpaRepository<Category, Long> {
 
     boolean existsByTypeAndTitle(CategoryType type, String title);
-
-    List<Category> findAllByType(CategoryType categoryType);
-
 }

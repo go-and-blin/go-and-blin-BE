@@ -43,11 +43,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponse> getCategoriesByCategoryType(CategoryType categoryType) {
-        return categoryRepository.findAllByType(categoryType)
-                .stream()
-                .map(CategoryResponse::from)
-                .toList();
+    public List<CategoryResponse> getCategories() {
+        return categoryRepository.findAll()
+            .stream()
+            .map(CategoryResponse::from)
+            .toList();
     }
 
 }

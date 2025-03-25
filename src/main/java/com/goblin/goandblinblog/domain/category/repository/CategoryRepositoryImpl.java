@@ -33,13 +33,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Category> findAllByType(CategoryType categoryType) {
-        return categoryJpaRepository.findAllByType(categoryType);
+    public void deleteAll() {
+        categoryJpaRepository.deleteAll();
     }
 
     @Override
-    public void deleteAll() {
-        categoryJpaRepository.deleteAll();
+    public List<Category> findAll() {
+        return categoryJpaRepository.findAll();
     }
 
 }

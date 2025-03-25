@@ -51,10 +51,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> getCategories(
-            @RequestParam("type") CategoryType type
-    ) {
-        List<CategoryResponse> categories = categoryService.getCategoriesByCategoryType(type);
+    public ResponseEntity<List<CategoryResponse>> getCategories() {
+        List<CategoryResponse> categories = categoryService.getCategories();
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 

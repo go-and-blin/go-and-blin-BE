@@ -106,33 +106,22 @@ class CategoryControllerTest extends ControllerTestSupport {
                 .andExpect(status().isNotFound());
     }
 
-    @DisplayName("자식 카테고리를 전체 조회한다.")
+    @DisplayName("카테고리를 전체 조회한다.")
     @Test
     void getCategoriesByCategoryType() throws Exception {
         Long categoryId = 1L;
         List<CategoryResponse> responses = List.of(new CategoryResponse(categoryId, CategoryType.ALL, "트러블 슈팅"));
 
-        when(categoryService.getCategoriesByCategoryType(any(CategoryType.class))).thenReturn(responses);
+        when(categoryService.getCategories()).thenReturn(responses);
 
         mockMvc.perform(
-                        get(CATEGORY_API + "?type=" + "ALL")
+                        get(CATEGORY_API)
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(categoryId))
                 .andExpect(jsonPath("$[0].type").value("ALL"))
                 .andExpect(jsonPath("$[0].title").value("트러블 슈팅"));
-    }
-
-    @DisplayName("type 파라미터는 필수값이다.")
-    @Test
-    void getCategoriesByCategoryTypeWhenTypeParameterIsEmpty() throws Exception {
-        mockMvc.perform(
-                        get(CATEGORY_API + "?type=" + "")
-                )
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("공백은 허용되지 않습니다."));
     }
 
 }

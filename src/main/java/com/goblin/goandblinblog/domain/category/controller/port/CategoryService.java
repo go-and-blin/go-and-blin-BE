@@ -14,6 +14,5 @@ public interface CategoryService {
 
     CategoryResponse getCategory(Long categoryId);
 
-    List<CategoryResponse> getCategoriesByCategoryType(CategoryType categoryType);
-
+    List<CategoryResponse> getCategories();
 }

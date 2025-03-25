@@ -52,7 +52,7 @@ class CategoryServiceTest extends IntegrationTestSupport {
         CategoryCreateServiceRequest request = createCategoryServiceRequest();
 
         assertThatExceptionOfType(CategoryExistsException.class)
-                .isThrownBy(() -> categoryService.create(request));
+            .isThrownBy(() -> categoryService.create(request));
 
     }
 
@@ -66,9 +66,9 @@ class CategoryServiceTest extends IntegrationTestSupport {
         Category result = categoryRepository.findById(category.getId());
 
         assertThat(result).extracting(
-                "id", "type", "title"
+            "id", "type", "title"
         ).contains(
-                category.getId(), CategoryType.ALL, "HTTP"
+            category.getId(), CategoryType.ALL, "HTTP"
         );
 
     }
@@ -81,13 +81,13 @@ class CategoryServiceTest extends IntegrationTestSupport {
         CategoryResponse categoryResponse = categoryService.getCategory(category.getId());
 
         assertThat(categoryResponse).extracting(
-                "id", "type", "title"
+            "id", "type", "title"
         ).contains(
-                category.getId(), CategoryType.ALL, "트러블슈팅"
+            category.getId(), CategoryType.ALL, "트러블슈팅"
         );
     }
 
-    @DisplayName("부모 카테고리를 입력하면 해당 자식 카테고리를 전체 조회한다.")
+    @DisplayName("카테고리를 전체 조회한다.")
     @Test
     void getCategoriesByCategoryType() {
         CategoryType categoryType = CategoryType.ALL;
@@ -95,15 +95,15 @@ class CategoryServiceTest extends IntegrationTestSupport {
         Category category2 = createCategory(categoryType, "자바");
         Category category3 = createCategory(categoryType, "파이썬");
 
-        List<CategoryResponse> result = categoryService.getCategoriesByCategoryType(categoryType);
+        List<CategoryResponse> result = categoryService.getCategories();
 
         assertThat(result).extracting(
-                        "id", "type", "title")
-                .containsExactlyInAnyOrder(
-                        tuple(category1.getId(), CategoryType.ALL, "스프링"),
-                        tuple(category2.getId(), CategoryType.ALL, "자바"),
-                        tuple(category3.getId(), CategoryType.ALL, "파이썬")
-                ).hasSize(3);
+                "id", "type", "title")
+            .containsExactlyInAnyOrder(
+                tuple(category1.getId(), CategoryType.ALL, "스프링"),
+                tuple(category2.getId(), CategoryType.ALL, "자바"),
+                tuple(category3.getId(), CategoryType.ALL, "파이썬")
+            ).hasSize(3);
     }
 
     private Category createCategory(CategoryType categoryType, String title) {
@@ -112,8 +112,8 @@ class CategoryServiceTest extends IntegrationTestSupport {
 
     private CategoryCreateServiceRequest createCategoryServiceRequest() {
         return new CategoryCreateServiceRequest(
-                CategoryType.ALL,
-                "트러블 슈팅"
+            CategoryType.ALL,
+            "트러블 슈팅"
         );
     }
 }
