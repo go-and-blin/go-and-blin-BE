@@ -2,6 +2,7 @@ package com.goblin.goandblinblog.domain.category.service.port;
 
 import com.goblin.goandblinblog.domain.category.entity.Category;
 import com.goblin.goandblinblog.domain.category.entity.CategoryType;
+import java.util.Collection;
 import java.util.List;
 
 public interface CategoryRepository {
@@ -12,8 +13,7 @@ public interface CategoryRepository {
 
     Category findById(Long categoryId);
 
-    List<Category> findAllByType(CategoryType categoryType);
-
     void deleteAll();
 
+    List<Category> findAll();
 }
